@@ -1,0 +1,40 @@
+.btn {
+  font-size: 18px;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 12px 16px;
+  max-width: 200px;
+
+  &--add {
+    background-color:#00FF00;
+    opacity: 0.9;
+    color: white;
+    font-weight: bold;
+  }
+
+  &--false {
+    color: white;
+    background-color: #F00;
+  }
+
+  &--true {
+    color: black;
+    background-color: #00FF00;
+  }
+
+  &--edit {
+    background-color: orange;
+    color: white
+  }
+
+  &--remove {
+    background-color: red;
+    color: white
+  }
+}
+
+.span {
+
+}
