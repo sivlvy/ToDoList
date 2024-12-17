@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./custom-button.module.scss";
 import clsx from "clsx";
 
+import PropTypes from "prop-types";
+
 const CustomButton = ({ text, onClick, type, children }) => {
   const buttonStyles = clsx(styles.btn, styles[`btn--${type}`]);
 
@@ -14,3 +16,10 @@ const CustomButton = ({ text, onClick, type, children }) => {
 };
 
 export { CustomButton };
+
+CustomButton.propTypes = {
+  text: PropTypes.string,
+  onClick: PropTypes.func,
+  type: PropTypes.oneOf(["add", "edit", "remove"]),
+  children: PropTypes.node,
+};

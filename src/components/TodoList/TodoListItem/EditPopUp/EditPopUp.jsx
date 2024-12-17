@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useTodo } from "../../../../context/TodoContext/TodoContext";
 import { CustomButton } from "../../../../UI-components/CustomButton/CustomButton";
 import { CustomInput } from "../../../../UI-components/CustomInput/CustomInput";
+import PropTypes from "prop-types";
 
 const EditPopUp = ({ item, setIsModalOpen }) => {
   const [value, setValue] = useState("");
@@ -34,3 +35,8 @@ const EditPopUp = ({ item, setIsModalOpen }) => {
 };
 
 export { EditPopUp };
+
+EditPopUp.propTypes = {
+  item: PropTypes.object.isRequired,
+  setIsModalOpen: PropTypes.func.isRequired,
+};

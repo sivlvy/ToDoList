@@ -1,5 +1,6 @@
 import React from "react";
 import { CustomButton } from "../../../UI-components/CustomButton/CustomButton";
+import PropTypes from "prop-types";
 
 const Filters = ({ setFilter, activeFilter }) => {
   return (
@@ -25,3 +26,8 @@ const Filters = ({ setFilter, activeFilter }) => {
 };
 
 export { Filters };
+
+Filters.propTypes = {
+  setFilter: PropTypes.func.isRequired,
+  activeFilter: PropTypes.string.isRequired,
+};

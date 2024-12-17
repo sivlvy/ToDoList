@@ -1,4 +1,5 @@
 import styles from "./custom-modal.module.scss";
+import PropTypes from "prop-types";
 
 const CustomModal = ({ sx, children, openModal, setOpenModal, callback }) => {
   const handleCloseModal = () => {
@@ -27,3 +28,10 @@ const CustomModal = ({ sx, children, openModal, setOpenModal, callback }) => {
 };
 
 export { CustomModal };
+
+CustomModal.propTypes = {
+  children: PropTypes.node,
+  openModal: PropTypes.func,
+  sx: PropTypes.object,
+  setOpenModal: PropTypes.func,
+};

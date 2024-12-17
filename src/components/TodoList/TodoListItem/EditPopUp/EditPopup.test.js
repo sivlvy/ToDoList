@@ -1,40 +1,51 @@
 import "@testing-library/jest-dom";
-
+import { useTodo } from "../../../../context/TodoContext/TodoContext";
 import { EditPopUp } from "./EditPopUp";
-import { TodoContext } from "../../../../context/TodoContext/TodoContext";
-import { screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 
-jest.mock("../../../../UI-components/CustomButton/CustomButton", () => ({
-  CustomButton: ({ text, onClick }) => (
-    <button onClick={onClick}>{text}</button>
-  ),
-}));
-
-jest.mock("../../../../UI-components/CustomInput/CustomInput", () => ({
-  CustomInput: ({ value, onChange, placeholder }) => (
-    <input value={value} onChange={onChange} placeholder={placeholder} />
-  ),
+jest.mock("../../../../context/TodoContext/TodoContext", () => ({
+  useTodo: jest.fn(),
 }));
 
 describe("EditPopUp", () => {
-  const mockSetIsOpenModal = jest.fn();
-  const mockEditToDo = jest.fn();
+  const setIsModalOpen = jest.fn();
+  const editTodo = jest.fn();
+  const mockItem = { id: 1, text: "Test todo" };
 
-  const item = { id: 1, text: "Todo", completed: false };
-
-  const renderWithContext = () => {
-    return (
-      <TodoContext.Provider value={{ editTodo: mockEditToDo }}>
-        <EditPopUp item={item} setIsModalOpen={mockSetIsOpenModal} />
-      </TodoContext.Provider>
-    );
-  };
-
-  it("should render input and button", async () => {
-    renderWithContext();
-    await waitFor(() => {
-      expect(screen.getByPlaceholderText("Edit")).toBeInTheDocument();
-      expect(screen.getByText("Edit")).toBeInTheDocument();
+  beforeEach(() => {
+    useTodo.mockReturnValue({
+      editTodo,
     });
+  });
+
+  it("renders input and button components", () => {
+    render(<EditPopUp item={mockItem} setIsModalOpen={setIsModalOpen} />);
+
+    expect(screen.getByPlaceholderText("Edit")).toBeInTheDocument();
+    expect(screen.getByText("Edit")).toBeInTheDocument();
+  });
+
+  it("updates input value on change", () => {
+    render(<EditPopUp item={mockItem} setIsModalOpen={setIsModalOpen} />);
+
+    const input = screen.getByPlaceholderText("Edit");
+    fireEvent.change(input, { target: { value: "Updated todo" } });
+
+    expect(input.value).toBe("Updated todo");
+  });
+
+  it("calls editTodo and setIsModalOpen on button click", () => {
+    render(<EditPopUp item={mockItem} setIsModalOpen={setIsModalOpen} />);
+
+    const input = screen.getByPlaceholderText("Edit");
+    const btn = screen.getByText("Edit");
+
+    fireEvent.change(input, { target: { value: "Updated todo" } });
+    fireEvent.click(btn);
+
+    expect(editTodo).toHaveBeenCalledWith(mockItem.id, "Updated todo");
+    expect(setIsModalOpen).toHaveBeenCalledWith(false);
+
+    expect(input.value).toBe("");
   });
 });
